@@ -1,6 +1,252 @@
+:root {
+  /* Fonts */
+  --headingTitle: "Titillium Web", Arial, sans-serif;
+  --body: Lato, Arial, sans-serif;
+  /* Colors */
+  --periwinkle: #dcd6f7ff;
+  --periwinkle-2: #a6b1e1ff;
+  --puce: #b4869fff;
+  --china-rose: #985f6fff;
+  --english-violet: #4e4c67ff;
+}
+
 /******* Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+
+/* Header */
+#top-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0rem 0 2rem 0;
+}
+
+#tools {
+  /* align-self: flex-start; */
+  font-family: var(--body);
+  font-size: 0.7rem;
+  padding-top: 0.5rem;
+}
+
+#tools a {
+  text-decoration: none;
+  color: var(--english-violet);
+}
+
+.siteName {
+  font-family: var(--headingTitle);
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+.siteName a {
+  text-decoration: none;
+  color: var(--english-violet);
+}
+
+/* Navigation */
+.nav_list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--english-violet);
+  color: var(--periwinkle);
+  font-family: var(--body);
+}
+
+.nav_list li {
+  padding: .6em;
+}
+
+.nav_list li a {
+  text-decoration: none;
+  color: var(--periwinkle);
+}
+
+.nav_list li a:hover {
+  color: var(--china-rose);
+}
+
+/* Hero Section */
+#hero {
+  position: relative;
+}
+#hero h1 {
+  font-family: var(--body);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--english-violet);
+}
+
+.hero_img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}
+
+.car_info {
+  background-color: rgb(255, 255, 255, 0.80);
+  line-height: 0.3rem;
+  font-size: 0.7rem;
+  position: absolute;
+  bottom: 17px;
+  left: 15px;
+  z-index: 1;
+  width: 105px;
+  color: var(--puce);
+}
+
+.car_info h3 {
+  font-family: var(--headingTitle);
+}
+
+.car_info p, .button {
+  font-family: var(--body);
+}
+
+.button {
+  width: 75px;
+  padding: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  background-color: var(--china-rose);
+  color: yellow;
+  border: 1px solid var(--puce);
+
+}
+
+/* Review Section */
+#review h3 {
+  font-family: var(--headingTitle);
+  color: var(--english-violet);
+  margin-bottom: 9px;
+}
+
+.review_list {
+  font-family: var(--body);
+  font-size: 0.8rem;
+  line-height: 1.4rem;
+}
+
+#review ul, li {
+  margin: 0;
+  color: var(--english-violet);
+}
+
+/* Upgrades Section */
+#upgrades {
+  padding-bottom: 2rem;
+  max-width: 304px;
+}
+#upgrades h3 {
+  font-family: var(--headingTitle);
+  color: var(--english-violet);
+}
+
+.upgrd_items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px 10px;
+  font-family: var(--body);
+  font-size: 0.8rem;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  width: 9rem;
+  height: 4.5rem;
+  align-items: center;
+  background-color: var(--china-rose);
+}
+
+.upgrd_items img {
+  width: 37%;
+  padding: 0 0 .3rem 0;
+}
+
+.upgrd_items .items a {
+  color: blue;
+}
+
+.upgrd_items .items a:visited {
+  color: blue;
+}
+
+#img1 {
+  gap: 13.5px;
+}
+
+#img3 {
+  gap: 20px;
+}
+
+#img4 {
+  gap: 15px;
+}
+
+/* Footer */
+footer {
+  font-family: var(--body);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* Large screen */
+@media only screen and (min-width: 700px) {
+  body {
+    background-image: url("/images/site/small_check.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  #wrapper {
+    background-color: white;
+    width: 90%;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 4px solid darkblue;
+    border-radius: 10px;
+  }
+
+  #hero h1 {
+    font-size: 2.0rem;
+  }
+
+  #extras {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+  }
+
+  #upgrades {
+    order: 1;
+  }
+
+  #review {
+    order: 2;
+  }
+
+  .car_info {
+    font-size: 1.5rem;
+    width: 190px;
+    bottom: 50px;
+    left: 20px;
+  }
+
+  .button {
+    font-size: 1rem;
+    width: 130px;
+  }
+
 }
