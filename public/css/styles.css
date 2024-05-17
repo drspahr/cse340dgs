@@ -242,6 +242,59 @@ footer {
   font-weight: 700;
 }
 
+/* Login/Registration Views */
+#form-area {
+  font-family: var(--body);
+  font-size: 1.2rem;
+  width: 65%;
+  height: 85%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  border: 1px black solid;
+  background-color: var(--periwinkle-2);
+}
+
+.form {
+  width: 85%;
+  margin: 1.2rem auto;
+  padding: .95rem .70rem;
+  background-color: var(--english-violet);
+  color: var(--periwinkle);
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 5px 5px var(--china-rose);
+}
+
+.form input {
+  width: 20rem;
+}
+
+.form a {
+  color: var(--periwinkle);
+  font-weight: 900;
+}
+
+#reg-area {
+  font-family: var(--body);
+}
+
+#reg-area form {
+  text-align: center;
+}
+
+.prequire {
+  font-size: .85rem;
+}
+
+input:required:invalid, input:focus:invalid {
+  background-color: rgb(77, 20, 20);
+}
+
+input:required:valid {
+  background-color: rgb(4, 71, 4);
+}
+
 /* Large screen */
 @media only screen and (min-width: 700px) {
   body {
