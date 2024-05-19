@@ -1,0 +1,43 @@
+<!-- Add Inventory -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<!-- Message Block -->
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<!-- Form to add new inventory -->
+<div id="inventory">
+    <p class="tform">All Fields Are Required</p>
+    <form class="form" action="./add-inventory" method="post">
+        <%- classificationList %><br>
+        <label for="iyear">Year</label><br>
+        <input type="number" id="iyear" name="inv_year" required value="<%= locals.inv_year %>"><br><br>
+        <label for="imake">Make</label><br>
+        <input type="text" id="imake" name="inv_make" required value="<%= locals.inv_make %>"><br><br>
+        <label for="imodel">Model</label><br>
+        <input type="text" id="imodel" name="inv_model" required value="<%= locals.inv_model %>"><br><br>
+        <label for="idesc">Description</label><br>
+        <input type="textarea" id="idesc" name="inv_description" required value="<%= locals.inv_description %>"><br><br>
+        <label for="iimage">Image</label><br>
+        <input type="text" id="iimage" name="inv_image" required value="<%= locals.inv_image %>"><br><br>
+        <label for="ithumb">Thumbnail</label><br>
+        <input type="text" id="ithumb" name="inv_thumbnail" required value="<%= locals.inv_thumbnail %>"><br><br>
+        <label for="iprice">Price</label><br>
+        <input type="number" id="iprice" name="inv_price" required value="<%= locals.inv_price %>"><br><br>
+        <label for="imiles">Miles</label><br>
+        <input type="number" id="imiles" name="inv_miles" required value="<%= locals.inv_miles %>"><br><br>
+        <label for="icolor">Color</label><br>
+        <input type="text" id="icolor" name="inv_color" required value="<%= locals.inv_color %>"><br><br>
+        <button>Add To Inventory</button>
+    </form>
+</div>

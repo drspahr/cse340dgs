@@ -288,11 +288,12 @@ footer {
 }
 
 input:required:invalid, input:focus:invalid {
-  background-color: rgb(77, 20, 20);
+  background-color: red;
+  color: var(--periwinkle);
 }
 
 input:required:valid {
-  background-color: rgb(4, 71, 4);
+  background-color: lightgreen;
 }
 
 /* Large screen */
