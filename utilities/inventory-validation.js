@@ -43,57 +43,66 @@ validate.inventoryRules = () => {
         body("inv_make")
             .trim()
             .escape()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Make"),
 
         // Vehicle Model is required and must not be empty
-        body("inv_modle")
+        body("inv_model")
             .trim()
             .escape()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Model"),
 
         // Vehicle Year is required and must not be empty and must be four numbes
         body("inv_year")
             .trim()
             .escape()
             .isNumeric()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Year"),
 
         // Vehicle Description is required and not be empty
         body("inv_description")
             .trim()
             .escape()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Description"),
         
         // Images is required and not empty
         body("inv_image")
             .trim()
             .escape()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Image"),
 
         body("inv_thumbnail")
             .trim()
             .escape()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Thumbnail"),
 
         // Price is require and not empty, is numeric
         body("inv_price")
             .trim()
             .escape()
             .notEmpty()
-            .isNumeric(),
+            .isNumeric()
+            .withMessage("Price"),
 
         // Miles is required and not empty, is numeric
         body("inv_miles")
             .trim()
             .escape()
             .notEmpty()
-            .isNumeric(),
+            .isNumeric()
+            .withMessage("Miles"),
 
         // Color is required and not empty
         body("inv_color")
             .trim()
             .escape()
-            .notEmpty(),
+            .notEmpty()
+            .withMessage("Color"),
     ]
 }
 
@@ -110,6 +119,26 @@ validate.checkInvData = async (req, res, next) => {
             nav,
             classificationList,
             inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,
+        });
+        return;
+    }
+    next();
+}
+
+// Errors to be directed back to the edit view
+validate.checkUpdateData = async (req, res, next) => {
+    const { inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body;
+    let errors = [];
+    errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav();
+        let classificationList = await utilities.buildClassificationList();
+        res.render("./inventory/edit-inventory", {
+            errors,
+            title: "Edit " ,
+            nav,
+            classificationList,
+            inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,
         });
         return;
     }

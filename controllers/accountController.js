@@ -4,6 +4,8 @@
 const utilities = require("../utilities");
 const accModel = require("../models/account-model");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 
 /* ****************************************
@@ -74,5 +76,57 @@ async function registerAccount(req, res) {
   }
 }
 
-  module.exports = { buildLogin, buildRegistration, registerAccount }
+/* ***********************************************
+ * Process Login Request
+ * **********************************************/
+async function accountLogin(req, res) {
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+  console.log(`TEST03: Before call to getAccountByEmail (${account_email})`)
+  const accountData = await accModel.getAccountByEmail(account_email);
+  console.log(`TEST02: Finished getAccountByEmail (${accountData.account_email})`);
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.");
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+    return
+  }
+  try {
+    console.log("TEST04: Just inside try block, before password compare");
+    console.log(`TEST07: Before brcrypt.compare (${account_password}, ${accountData.account_password}) `)
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      console.log(`TEST05: In first if .compare`);
+      delete accountData.account_password;
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, {expiresIn: 3600});
+      if (process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, {httpOnly: true, maxAge: 3600 * 1000});
+      } else {
+        res.cookie("jwt", accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000});
+      }
+    return res.redirect("/account/");
+    }
+  } catch (error) {
+    console.log(`TEST06: Inside the catch before return of error: ${error}`)
+    return new Error('Access Forbidden');
+  }
+}
+
+/* ****************************************
+*  Deliver Management view
+* *************************************** */
+async function buildManagement(req, res, next) {
+  console.log("TEST01: buildManagement");
+  let nav = await utilities.getNav()
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    errors: null,
+  })
+}
+
+  module.exports = { buildLogin, buildRegistration, registerAccount, accountLogin, buildManagement }
   
