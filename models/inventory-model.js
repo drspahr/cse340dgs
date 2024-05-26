@@ -27,13 +27,10 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 async function getInventoryByInventoryId(inventory_id) {
-console.log(`TEST02: Just before SQL: Inventory id:${inventory_id}`);
     try {
         const data = await pool.query(
             `SELECT * FROM public.inventory WHERE inv_id = $1`, [inventory_id]
         );
-        console.log("Right after database query, before return.")
-        console.log(data.rows);
         return data.rows;
     } catch (error) {
         console.error("getinventorybyid error " + error);

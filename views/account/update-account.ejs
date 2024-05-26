@@ -1,0 +1,43 @@
+<!-- Update Account -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<!-- Message Block -->
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+<!-- Forms to update user and password -->
+
+<div id="account">
+    <h2>Update Account</h2>
+    <form class="form" action="/account/update" method="post">
+        <label for="fname">First Name</label><br>
+        <input type="text" id="fname" name="account_firstname" value="<%= locals.account_firstname %>" required><br><br>
+        <label for="lname">Last Name</label><br>
+        <input type="text" id="lname" name="account_lastname" value="<%= locals.account_lastname %>" required><br><br>
+        <label for="email">Email Address</label><br>
+        <input type="text" id="email" name="account_email" value="<%= locals.account_email %>"required><br><br>
+        <button type="submit">Update</button>
+        <input type="hidden" name="account_id" <% if(locals.account_id) {%> value="<%= locals.account_id %>" <% } %>>
+    </form>
+</div>
+<div id="pass">
+    <h2>Change Password</h2>
+    <form class="form" action="/account/pass" method="post">
+        <p>The password must contain: 12 characters, at least 1 captial letter, 1 number, and 1 special character.</p>
+        <p class="warining">Warning!! Entering a new password will change your current password</p>
+        <label for="password">New Password</label><br>
+        <input type="password" id="password" name="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"><br><br>
+        <button type="submit">Change Password</button>
+        <input type="hidden" name="account_id" <% if(locals.account_id) {%> value="<%= locals.account_id %>" <% } %>>
+    </form>
+</div>

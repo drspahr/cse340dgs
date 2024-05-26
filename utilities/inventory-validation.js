@@ -14,6 +14,7 @@ validate.classificationRules = () => {
         .escape()
         .notEmpty()
         .isAlpha()
+        .withMessage("Classification Name")
     ]
 }
 

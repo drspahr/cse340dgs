@@ -25,6 +25,7 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditInv));
 // Route to build Delete 
 router.get("/delete/:inventoryId", utilities.handleErrors(invController.buildDeleteView));
+// Route to display error
 
 // Route to post to database
 router.post("/add-classification", 

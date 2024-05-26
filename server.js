@@ -19,6 +19,7 @@ const pool = require('./database')
 const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
+const errorRoute = require("./routes/errorRoute")
 
 /* ***********************
  * Middleware
@@ -64,6 +65,8 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", utilities.handleErrors(inventoryRoute))
 app.use("/account", utilities.handleErrors(accountRoute))
+app.use("/error", utilities.handleErrors(errorRoute))
+
 // File Not Found Route - MUST BE LAST IN LIST
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, the page your looking for is not here'})

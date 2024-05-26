@@ -99,7 +99,7 @@ Util.buildClassificationList = async function (classification_id = null) {
     })
     classificationList += "</select>"
     return classificationList
-  }
+}
 
 /* ******************************************
  * Middleware For Handling Errors

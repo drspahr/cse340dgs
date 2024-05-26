@@ -229,9 +229,11 @@
 .detail_info {
   display: flex;
   flex-direction: column;
+  font-family: var(--body);
 }
 
 .detail_list li {
+  text-decoration: none;
   list-style-type: none;
 }
 

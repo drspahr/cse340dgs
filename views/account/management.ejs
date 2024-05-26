@@ -16,4 +16,12 @@
   <% } %>
 
 <!-- Account Management View -->
-<h2>Your're Logged In!!</h2>
+<h2>Welcome <%= locals.accountData.account_firstname %></h2>
+<h3>You're Logged In!!</h3>
+<a title="Click to Edit Informatioin" href="/account/update/<%= locals.accountData.account_id %>">Edit Account Information</a><br>
+
+<% if (locals.accountData.account_type == "Admin" || locals.accountData.account_type == "Employee") { %>
+    <h2>Inventory Management</h2>
+    <a title="Click to Manage Inventory" href="/inv">Manage Inventory</a>
+<% } %>
+
