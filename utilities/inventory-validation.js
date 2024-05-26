@@ -72,13 +72,11 @@ validate.inventoryRules = () => {
         // Images is required and not empty
         body("inv_image")
             .trim()
-            .escape()
             .notEmpty()
             .withMessage("Image"),
 
         body("inv_thumbnail")
             .trim()
-            .escape()
             .notEmpty()
             .withMessage("Thumbnail"),
 
