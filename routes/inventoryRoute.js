@@ -46,4 +46,10 @@ router.post("/update/",
 
 router.post("/delete/", utilities.handleErrors(invController.deleteVehicle));
 
+// Routes to approve or delete new classifications and inventory items
+router.get("/approve_class/:classId", utilities.handleErrors(invController.buildApproveClassView));
+router.post("/approve-class", utilities.handleErrors(invController.approveClass));
+
+router.get("/delete_class/:classId", utilities.handleErrors(invController.buildDeleteClassView));
+
 module.exports = router;

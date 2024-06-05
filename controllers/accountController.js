@@ -114,9 +114,13 @@ async function accountLogin(req, res) {
 * *************************************** */
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
+  let classList = await utilities.getNewClass();
+  let invList = await utilities.getNewInventory();
   res.render("account/management", {
     title: "Account Management",
     nav,
+    classList,
+    invList,
     errors: null,
   });
 }

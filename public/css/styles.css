@@ -232,6 +232,10 @@
   font-family: var(--body);
 }
 
+.detail_info h2 {
+  font-family: var(--headingTitle);
+}
+
 .detail_list li {
   text-decoration: none;
   list-style-type: none;
@@ -358,6 +362,9 @@ input:required:valid {
     margin-right: 15px;
   }
   /* Detail Page */
+  .image {
+    width: 45%;
+  }
   #detail_info {
     flex-direction: row;
   }

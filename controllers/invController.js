@@ -43,7 +43,7 @@ invCont.buildByInventoryId = async function (req, res, next) {
  * ***************************/
 invCont.buildManage = async function (req, res) {
     let nav = await utilities.getNav();
-    const classificationSelect = await utilities.buildClassificationList();
+    let classificationSelect = await utilities.buildClassificationList();
     res.render("./inventory/management", {
         title: "Vehicle Management",
         nav,
@@ -88,10 +88,12 @@ invCont.addNewClass = async function (req, res, next) {
     
     if (regResult) {
         let nav = await utilities.getNav();
+        let classificationSelect = await utilities.buildClassificationList();
         req.flash("notice", `Added the new classification ${classification_name}.`)
         res.status(201).render("./inventory/management", {
             title: "Vehicle Management",
             nav,
+            classificationSelect,
             error: null,
          });
     } else {
@@ -125,10 +127,12 @@ invCont.addNewInv = async function (req, res, next) {
     )
 
     if (regResult) {
+        let classificationSelect = await utilities.buildClassificationList();
         req.flash("notice", "New vehicle added to inventory.");
         res.status(201).render("./inventory/management", {
             title: "Vehicle Management",
             nav,
+            classificationSelect,
             errors: null,
         });
     } else {
@@ -281,6 +285,48 @@ invCont.deleteVehicle = async function (req, res, next) {
             inv_price
         });
     }
+}
+
+/* ******************************************************
+ * Approve and delete new classification
+ * *****************************************************/
+invCont.buildApproveClassView = async function (req, res, next) {
+    let nav = await utilities.getNav();
+    const classificaiton_id = req.body;
+    res.render("./inventory/approve-class", {
+        title: "Approve Class",
+        nav, 
+        errors: null,
+    });
+}
+
+/* ******************************************************
+ * Approve and delete new classification
+ * *****************************************************/
+invCont.approveClass = async function (req, res, next) {
+    const { classification_id, classification_name } = req.body;
+    const class_id = parseInt(classification_id);
+
+    const approve = await invModel.approveClass(class_id);
+
+    if (approve) {
+        const approveName = approve.classification_name;
+        req.flash("notice", `The ${approveName} has been approved`);
+        res.redirect('./account/');
+    } else {
+        req.flash("notice", "Sorry, approval failed");
+        res.status(501).render("./inventory/approve-class", {
+            title: "Approve Class",
+            nav,
+            classification_name,
+            errors: null,
+        });
+    }
+}
+
+invCont.buildDeleteClassView = async function (req, res, next) {
+    
+
 }
 
 module.exports = invCont;

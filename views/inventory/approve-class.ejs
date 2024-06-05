@@ -1,0 +1,26 @@
+<!-- Approve Class -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+
+<!-- Message Block -->
+<%- messages() %>
+<% if (errors) { %>
+    <ul class="notice">
+   <% errors.array().forEach(error => { %>
+     <li><%= error.msg %></li>
+  <%  }) %>
+   </ul>
+  <% } %>
+
+  <!-- Approve Class -->
+
+  <div>
+    <form class="form" action="./approve-class" method="post">
+        <lable for="classname">Classification Name</lable><br>
+        <input type="text" id="classname" name="classification_name" value="<%=locals.classification_name %>"><br>
+        <button>Approve</button>
+    </form>
+  </div>

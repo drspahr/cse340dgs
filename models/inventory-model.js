@@ -4,8 +4,34 @@ const pool = require("../database");
  * Get all classification data
  * ******************************/
 
-async function getClassifications() {
-    return await pool.query("SELECT * FROM public.classification ORDER BY classification_name");
+async function getClassifications(all) {
+
+    if (!all) {
+    return await pool.query("SELECT * FROM public.classification WHERE classification_id IN (SELECT classification_id FROM public.inventory WHERE account_id = 7)");
+    } else {
+        return await pool.query("SELECT * FROM public.classification ORDER BY classification_name");
+    }
+}
+
+/* ******************************
+ * Get new class for management view
+ * *****************************/
+async function getNewClass() {
+    try{
+    const data = await pool.query("SELECT * FROM public.classification WHERE account_id IS NULL");
+    return data.rows;
+    } catch (error) {
+        console.error("getNewClass error: " + error);
+    }
+}
+
+async function getNewInventory() {
+    try {
+    const data = await pool.query("SELECT * FROM public.inventory WHERE account_id IS NULL");
+    return data.rows;
+    } catch (error) {
+        console.error("getNewInventory error: " + error);
+    }
 }
 
 /* ******************************
@@ -75,4 +101,17 @@ async function deleteVehicle(inventory_Id) {
     }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getInventoryByInventoryId, addClass, addInv, updateInventory, deleteVehicle };
+/* ******************************
+ * Approved Classifiation
+ * *****************************/
+async function approveClass(classification_id) {
+    try {
+        const sql = 'UPDATE public.classification SET account_id = 7 WHERE classification_id = $1';
+        const data = await pool.query(sql, [classification_id]);
+        return data;
+    } catch (error) {
+        new Error("Approve Class Error");
+    }
+}
+
+module.exports = { getClassifications, getInventoryByClassificationId, getInventoryByInventoryId, addClass, addInv, updateInventory, deleteVehicle, getNewClass, getNewInventory, approveClass };

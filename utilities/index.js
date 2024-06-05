@@ -7,7 +7,8 @@ require("dotenv").config();
  * Constructs the new nav HTML unordered list
  ***************************/
 Util.getNav = async function (req, res, next) {
-    let data = await invModel.getClassifications();
+  all = false;
+    let data = await invModel.getClassifications(all);
     let list = "<ul class='nav_list'>";
     list += '<li><a href="/" title="Home page">Home</a></li>';
     data.rows.forEach((row) => {
@@ -64,18 +65,19 @@ Util.buildClassificationGrid = async function(data) {
  * *****************************************/
 Util.buildDetailGrid = async function(data) {
     let grid;
-    grid = '<h2>' + data.inv_year + ' ' + data.inv_make + ' ' + data.inv_model + '</h2>';
-    grid += '<div class="detail_info">';
-    grid += '<img src="' + data.inv_image + ' " ' 
-    + 'alt="Image of ' + data.inv_make + ' ' + data.inv_model + '>';
-    grid += '<h3>' + data.inv_make + ' ' + data.inv_model + ' Details</h3>';
-    grid += '<ul class="detail_list">';
-    grid += '<li><strong>Price: $' + new Intl.NumberFormat('en-US').format(data.inv_price) + '</strong></li>';
-    grid += '<li><strong>Description:</strong>' + data.inv_description + '</li>';
-    grid += '<li><strong>Color:</strong>' + data.inv_color + '</li>';
-    grid += '<li><strong>Miles:</strong>' + new Intl.NumberFormat('en-US').format(data.inv_miles) + '</li>';
-    grid += '</ul>';
-    grid += '</div>';
+    grid = `<h2>${data.inv_year} ${data.inv_make} ${data.inv_model} </h2>
+      <div class=detail_info>
+        <img class="image" src="${data.inv_image}" alt="${data.inv_make} ${data.inv_model}">
+        <h3> ${data.inv_make} ${data.inv_model} Details</h3>
+        <div>
+          <ul class="detail_list">
+            <li><strong>Price: $${new Intl.NumberFormat('en-US').format(data.inv_price)}</strong></li>
+            <li><strong>Description: </strong>${data.inv_description}</li>
+            <li><strong>Color: </strong>${data.inv_color}</li>
+            <li><strong>Miles: </strong>${new Intl.NumberFormat('en-US').format(data.inv_miles)}</li>
+          </ul>
+        </div>  
+      </div>`;
     return grid;
 }
 
@@ -83,7 +85,8 @@ Util.buildDetailGrid = async function(data) {
  * Build Select field for add inventory form
  * ****************************************/
 Util.buildClassificationList = async function (classification_id = null) {
-    let data = await invModel.getClassifications()
+    all = true;
+    let data = await invModel.getClassifications(all)
     let classificationList =
       '<select name="classification_id" id="classificationList" required>'
     classificationList += "<option value=''>Choose a Classification</option>"
@@ -140,6 +143,41 @@ Util.checkLogin = (req, res, next) => {
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
+  }
+ }
+
+ /* ********************************
+  * Get new class(es)
+  * *******************************/
+ Util.getNewClass = async function(req, res, next) {
+  let data = await invModel.getNewClass();
+  console.log("getNewClass 01: " + data.rows);
+  if (data.length > 0) {
+    let classTable = '<ul class="class_list">'
+    data.forEach(function (element) {
+      classTable += `<li>${element.classification_name} <a href="/inv/approve_class/${element.classification_id}" title="Click to Approve">Approve/</a><a href="/inv/delete_class/${element.classification_id}" title="Click to Delete">Delete</a></li>`;
+    })
+    classTable += '</ul>';
+    return classTable;
+  } else {
+    return classTable = "No New Classes to be Approved"
+  }
+ }
+
+ /* ********************************
+  * Get new inventory
+  * *******************************/
+ Util.getNewInventory = async function(req, res, next) {
+  let data = await invModel.getNewInventory();
+  if (data.length > 0) {
+    let inventoryTable = '<ul class="class_list">';
+    data.forEach(function (element) {
+      inventoryTable += `<li>${element.inv_make} ${element.inv_model} <a href="/inv/approve_inv/${element.inv_id}" title="Click to Approve">Approve/</a><a href="/inv/delete_inv/${element.inv_id}" title="Click to Delete">Delete</a></li>`;
+    })
+    inventoryTable += '</ul>';
+    return inventoryTable;
+  } else {
+    return inventoryTable = "No New Inventory Items to be Approved"
   }
  }
 
